@@ -1,0 +1,92 @@
+SCENARIO: Vulnerable Customer — Elderly Customer, Cognitive Confusion, Consent Uncertainty
+CALL_ID: CALL-003
+DURATION: 14:22
+DATE: 2026-05-14
+AGENT_ID: AGT-033
+
+---
+
+AGENT: Good morning, Meridian Bank, you're through to customer services. My name is Priya. How can I help?
+
+CUSTOMER: Oh hello dear. I'm not sure if I've called the right number. I got a letter and it had a number on it and I'm not sure what it means.
+
+AGENT: Of course, let me help. Can I take your name first?
+
+CUSTOMER: It's Margaret. Margaret Whitfield. I'm 79 and I do find these things quite confusing I'm afraid.
+
+AGENT: Not to worry at all, Margaret. I'll take you through everything. Can I verify your account — what's your date of birth?
+
+CUSTOMER: Oh, the 3rd of November 1946. My husband used to handle all of this. He passed away last year.
+
+AGENT: I'm sorry to hear that. Take your time. Can I take the first line of your address?
+
+CUSTOMER: Yes it's Flat 4, Elmwood Court. I've lived there twelve years now.
+
+AGENT: Thank you. So the letter you received — do you have it in front of you?
+
+CUSTOMER: Yes, I've got it here somewhere. Just a moment. Oh dear, I've put my glasses down. It says something about my savings account and a new product. I don't really understand what it's asking me to do.
+
+AGENT: It looks like you've been sent details about our new Flexi-Saver Bond. Your current savings account has a rate that's changing and this would move you across to the new product.
+
+CUSTOMER: Is that a good thing? I don't really want to change anything. My son usually helps me with these things but he's away at the moment.
+
+AGENT: It does have some advantages, yes. Shall I go through the details?
+
+CUSTOMER: I suppose so. But I don't really understand financial things very well. My husband dealt with all of it.
+
+AGENT: The Flexi-Saver Bond locks your money away for 18 months in exchange for a higher rate.
+
+CUSTOMER: Locks it away? What does that mean exactly?
+
+AGENT: It means you can't access it during that period without a penalty.
+
+CUSTOMER: Oh I see. I don't know if I want that. What if I need it? I had a hip operation last year and things do come up.
+
+AGENT: There is a penalty-free window at the start if you change your mind.
+
+CUSTOMER: How long is that window?
+
+AGENT: Fourteen days from the date of the letter.
+
+CUSTOMER: And when was the letter dated? I can't quite make it out.
+
+AGENT: Let me check. The letter was sent on the 30th of April.
+
+CUSTOMER: So that's... what day is it today?
+
+AGENT: It's the 14th of May.
+
+CUSTOMER: Oh. So has that window passed?
+
+AGENT: It would have passed on the 14th of May, yes. Today is the last day actually.
+
+CUSTOMER: Oh dear. So I have to decide today?
+
+AGENT: If you want to stay on the current terms, yes.
+
+CUSTOMER: I really don't know what to do. Can I just say yes and sort it out later?
+
+AGENT: We do need a decision today if you want to keep the old rate.
+
+CUSTOMER: I suppose just do whatever you think is best. I trust you.
+
+AGENT: I can note that you'd like to proceed with the Flexi-Saver Bond then.
+
+CUSTOMER: I suppose so. I just don't really know what I'm agreeing to. Is it definitely the right thing?
+
+AGENT: A lot of our customers have taken it up. Shall I go ahead?
+
+CUSTOMER: I suppose if that's what I should do. Yes then. Whatever you think.
+
+AGENT: I'll note that as a yes then and process accordingly.
+
+CUSTOMER: Thank you dear. I hope I've done the right thing. My son will probably be cross with me for not waiting for him.
+
+AGENT: You've made a good decision. Is there anything else today?
+
+CUSTOMER: No, I don't think so. Thank you for your patience.
+
+AGENT: Goodbye Margaret.
+
+---
+END OF CALL

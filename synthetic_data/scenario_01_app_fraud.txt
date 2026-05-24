@@ -1,0 +1,60 @@
+SCENARIO: APP Fraud — Urgent Safe Account Transfer
+CALL_ID: CALL-001
+DURATION: 09:14
+DATE: 2026-05-12
+AGENT_ID: AGT-047
+
+---
+
+AGENT: Good morning, thank you for calling Meridian Bank. My name is Sarah. How can I help you today?
+
+CUSTOMER: Hi, yes, I'm really worried. I've just had a call from someone who said they were from your fraud team. They said my account has been compromised and that I need to move all my money to a safe account they've set up for me. They gave me a sort code and account number. Is that something you do?
+
+AGENT: I can understand you're concerned. Can I take your name and verify your account first?
+
+CUSTOMER: Yes, it's David Collins. Account number ending 4471.
+
+AGENT: Thank you Mr Collins. And can I take your date of birth and the first line of your address please?
+
+CUSTOMER: 14th of March 1958. 22 Ashbrook Lane, Harrogate.
+
+AGENT: Thank you, I've verified your account. So you've received a call telling you to move your money?
+
+CUSTOMER: Yes, they were very insistent. They said if I didn't do it within the next hour my account would be completely drained by fraudsters. They said to call you back but to make the transfer while we're on the phone together so the money is safe. They said the safe account number is 60-14-22, account 87654321.
+
+AGENT: I see. And did they ask you to keep this call confidential or not tell anyone else about it?
+
+CUSTOMER: Yes actually, they said not to tell family members because sometimes the fraud is done by someone close to you and they didn't want to tip them off.
+
+AGENT: Okay. And did they give you a case reference number?
+
+CUSTOMER: Yes, they said case reference FR-2026-009147. They sounded very official. They knew my name and roughly what was in my account.
+
+AGENT: Right. So can I confirm — you'd like to transfer your savings across to this new account today?
+
+CUSTOMER: Well I don't know. Should I? They said it was urgent. I'm quite scared, I have everything in that account. My pension savings, about sixty-two thousand pounds.
+
+AGENT: I can proceed with that transfer if you'd like. You'll just need to confirm the amount.
+
+CUSTOMER: All of it? Really? Are you sure that's safe? I thought banks were supposed to warn you about this sort of thing.
+
+AGENT: It's your money Mr Collins, it's your decision. Would you like to go ahead?
+
+CUSTOMER: I suppose if you say it's okay. But my daughter said I should never move money on the basis of a phone call I didn't initiate.
+
+AGENT: She does have a point. Do you want to proceed or not?
+
+CUSTOMER: I'm not sure. Can you check if that fraud team number that called me was actually from your bank?
+
+AGENT: I'd have to look into that. The transfer itself I can process right now if you confirm.
+
+CUSTOMER: Something doesn't feel right. I don't think I should do it today. Can I call you back?
+
+AGENT: Of course. Is there anything else I can help with?
+
+CUSTOMER: No, I just — I feel very shaken. Thank you.
+
+AGENT: Okay, goodbye.
+
+---
+END OF CALL

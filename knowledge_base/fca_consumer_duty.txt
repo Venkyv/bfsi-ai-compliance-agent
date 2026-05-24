@@ -1,0 +1,61 @@
+SOURCE: FCA Consumer Duty — Final Rules and Guidance (PS22/9, July 2022, effective July 2023)
+COLLECTION: fca_consumer_duty
+
+---
+
+OVERVIEW
+
+The FCA Consumer Duty sets a higher standard of consumer protection in retail financial markets. It requires firms to act to deliver good outcomes for retail customers. The Duty is built around a consumer principle, cross-cutting rules, and four outcome rules.
+
+THE CONSUMER PRINCIPLE
+
+Principle 12: A firm must act to deliver good outcomes for retail customers.
+
+This is the overarching standard. All firm activity affecting retail customers must be assessed against whether it delivers good outcomes.
+
+CROSS-CUTTING RULES
+
+Rule 1 — Act in good faith: Firms must act in good faith towards retail customers. This means being honest, fair, and not pursuing actions that harm customer interests.
+
+Rule 2 — Avoid causing foreseeable harm: Firms must avoid causing foreseeable harm to retail customers. This applies to both individual customers and the broader customer base.
+
+Rule 3 — Enable customers to pursue their financial objectives: Firms must enable and support retail customers to pursue their financial objectives. This includes providing information and tools that help customers make informed decisions.
+
+THE FOUR OUTCOMES
+
+Outcome 1 — Products and Services: Firms must ensure that products and services are designed to meet the needs, characteristics, and objectives of customers in the target market. Products must not be designed in a way that harms customers.
+
+Outcome 2 — Price and Value: Firms must ensure that the price customers pay for products and services is reasonable relative to the overall benefits they provide. Firms must assess the value of their products and act where value is poor.
+
+Outcome 3 — Consumer Understanding: Firms must ensure that their communications support retail customers to make informed decisions. Communications must be clear, fair, and not misleading. They must be presented in a way that customers can understand. Key information including risks, costs, and fees must be communicated prominently and in plain language.
+
+Outcome 4 — Consumer Support: Firms must ensure that the support they provide meets the needs of retail customers throughout the product or service lifecycle. Support should be accessible, timely, and effective.
+
+SPECIFIC REQUIREMENTS — CONSUMER UNDERSTANDING
+
+Under Outcome 3, firms must:
+- Communicate key information about risks prominently and in plain language before a customer makes a decision.
+- Never describe an investment product, savings product, or any financial product as "risk-free" or "completely safe" unless it is genuinely capital-protected and that protection is unconditional.
+- Ensure that annual charges, management fees, exit penalties, and other costs are clearly disclosed before the point of sale.
+- Ensure that any cooling-off or withdrawal rights are clearly explained to the customer.
+- Not use pressure tactics or artificial urgency to drive a customer decision.
+
+SPECIFIC REQUIREMENTS — VULNERABLE CUSTOMERS
+
+Firms must identify and respond appropriately to customers who may be vulnerable. A customer in vulnerable circumstances requires additional care and may need a different level of support. Firms must have processes in place to:
+- Identify signs of vulnerability during interactions.
+- Adapt communication and decision-making support accordingly.
+- Ensure that customers who indicate they do not understand, who defer to the agent, or who express uncertainty about a decision are not simply progressed without further care.
+- Record vulnerability indicators and flag for follow-up.
+
+AGENT CONDUCT REQUIREMENTS
+
+Staff who interact with customers must:
+- Be trained to identify potential vulnerability, mis-selling risk, and fraud.
+- Follow escalation protocols where vulnerability or consumer harm is suspected.
+- Not proceed with a sale or major financial transaction where the customer has expressed uncertainty, confusion, or lack of understanding.
+- Provide balanced information including risks and downsides, not only benefits.
+
+ENFORCEMENT
+
+Breach of Consumer Duty rules can result in FCA supervisory action, financial penalties, and remediation requirements. Firms are expected to monitor outcomes and act proactively where harm is identified.

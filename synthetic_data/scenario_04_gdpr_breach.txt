@@ -1,0 +1,68 @@
+SCENARIO: GDPR / SYSC 9 Breach — Agent Reads Full Account Details Without Proper Verification
+CALL_ID: CALL-004
+DURATION: 06:55
+DATE: 2026-05-15
+AGENT_ID: AGT-058
+
+---
+
+AGENT: Meridian Bank, good afternoon, Marcus speaking.
+
+CUSTOMER: Hi, I'm calling about a transaction on my account. I don't recognise a payment that went out this morning.
+
+AGENT: Sure, I can look into that. What's your full name?
+
+CUSTOMER: Thomas Harding.
+
+AGENT: Right, and what's the account number?
+
+CUSTOMER: I don't have it to hand. Can you find me from my name?
+
+AGENT: Yes, I've got you here. Thomas Harding, is that the account ending 8823?
+
+CUSTOMER: I think so, yes.
+
+AGENT: Okay so I can see your account. Your sort code is 40-27-11, account number 31458823, and the balance as of this morning was four thousand, two hundred and sixty-seven pounds and fourteen pence. Is that roughly what you'd expect?
+
+CUSTOMER: Yes that sounds right.
+
+AGENT: And the transaction you're querying — I can see a payment of £340 to an entity called GREENFIELD SUBSCRIPTIONS LIMITED on the 15th of May at 09:42.
+
+CUSTOMER: I don't recognise that at all. I've never heard of them.
+
+AGENT: I can also see your direct debits — council tax of £142 a month, a gym membership, and your home insurance renewal of £380 went out on the 3rd. Does any of that ring a bell?
+
+CUSTOMER: Yes those are fine. It's just this Greenfield one.
+
+AGENT: Okay. I'll also just note for the record that your registered address is 14 Burnley Road, Sheffield, S11 9RQ, and we have your mobile on file as 07712 334 891. Are those still correct?
+
+CUSTOMER: Yes but — did you just read all of that out? My address and phone number?
+
+AGENT: Just confirming your details are up to date, yes.
+
+CUSTOMER: You didn't actually verify who I was though, did you? I just gave you my name. Anyone could have called and said they were me.
+
+AGENT: You confirmed the account balance was correct.
+
+CUSTOMER: But I didn't know the balance — you told me what it was and I said yes. That's not really verification is it?
+
+AGENT: I can see you're registered with us so your details are correct.
+
+CUSTOMER: I'm a bit worried about this to be honest. You've read out my sort code, account number, balance, address and phone number and I haven't proved I'm who I say I am.
+
+AGENT: We do have security protocols in place.
+
+CUSTOMER: What are they? Because you didn't ask me anything security-related.
+
+AGENT: Let me now proceed with the dispute on the £340 transaction. I'll raise a chargeback request.
+
+CUSTOMER: Okay but I'm still concerned about what just happened.
+
+AGENT: The chargeback will be processed within five to seven working days. Is there anything else?
+
+CUSTOMER: No. But I'm going to think about whether to make a complaint.
+
+AGENT: Of course, our complaints team is available on the main number. Goodbye.
+
+---
+END OF CALL

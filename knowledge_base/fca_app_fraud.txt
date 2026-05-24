@@ -1,0 +1,56 @@
+SOURCE: FCA / PSR Guidance on Authorised Push Payment (APP) Fraud and Bank Agent Obligations
+COLLECTION: fca_consumer_duty
+
+---
+
+OVERVIEW — APP FRAUD
+
+Authorised Push Payment (APP) fraud occurs when a customer is manipulated or deceived into authorising a payment to an account controlled by a fraudster. The customer authorises the payment themselves, which historically made recovery difficult. New PSR mandatory reimbursement rules (effective October 2024) now require banks to reimburse victims in most cases.
+
+HOW APP FRAUD OPERATES — PATTERNS AGENTS MUST RECOGNISE
+
+1. Safe Account Scam: A fraudster impersonates the customer's bank (or another trusted authority such as the police or HMRC) and claims the customer's account has been compromised. The customer is instructed to move funds urgently to a "safe account" controlled by the fraudster.
+
+Key indicators:
+- Customer received an unsolicited call from someone claiming to be from the bank's fraud team.
+- Customer has been given a new account number to transfer funds to.
+- Customer has been told to act urgently (within hours).
+- Customer has been told to keep the transfer confidential or not to tell family members.
+- Fraudster knew some account details (name, approximate balance) — this does not make the call legitimate; such information is often obtained via data breaches or social engineering.
+- Customer is calling the bank while following the fraudster's instructions.
+
+2. Investment Fraud: Customer is persuaded to invest in a high-return, low-risk scheme that does not exist. Fraudster may claim to be from a legitimate investment firm.
+
+3. Romance Fraud: Customer has developed an online relationship with a fraudster who eventually requests money transfers.
+
+4. Impersonation Fraud: Fraudster impersonates a government body, utility company, or law enforcement to extract payments.
+
+BANK AGENT OBLIGATIONS WHEN APP FRAUD IS SUSPECTED
+
+Under the Contingent Reimbursement Model (CRM) Code (predecessor to PSR mandatory reimbursement) and the Payment Systems Regulator (PSR) APP Fraud Mandatory Reimbursement scheme:
+
+1. Agents must intervene when APP fraud indicators are present. Proceeding with a transfer that presents clear APP fraud signals without challenge is a failure of duty.
+
+2. Agents must issue a clear verbal warning to the customer that:
+- The bank would NEVER ask a customer to move money to a "safe account".
+- The bank would NEVER ask a customer to keep a transfer confidential.
+- The bank would NEVER contact a customer to instruct them to call back while staying on the line with a third party.
+- Fraudsters routinely impersonate bank staff and know partial account details.
+
+3. Agents must not process a transfer where:
+- The customer mentions receiving a prior call from someone claiming to be the bank.
+- The customer has been given a new account to transfer to.
+- Urgency has been artificially imposed.
+- The customer has been told to keep the transfer secret.
+
+4. Agents must escalate to the fraud team where APP fraud indicators are present, regardless of whether the customer consents to the transfer.
+
+5. Agents must document APP fraud indicator conversations thoroughly.
+
+CONSUMER DUTY ALIGNMENT
+
+Under FCA Consumer Duty Outcome 4 (Consumer Support), agents have an obligation to protect customers from foreseeable harm. Facilitating a transfer that displays APP fraud characteristics — even at the customer's request — is a breach of Consumer Duty if the agent did not issue appropriate warnings and escalate.
+
+PSR MANDATORY REIMBURSEMENT (From October 2024)
+
+Sending banks are now required to reimburse APP fraud victims up to £85,000 in most cases. This creates a direct financial incentive for banks to prevent APP fraud at the point of transfer, not only after the fact. Banks that fail to follow required intervention protocols may lose their ability to invoke contributory negligence as a defence against reimbursement claims.

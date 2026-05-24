@@ -1,0 +1,41 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# ChromaDB (local vector store — not committed)
+chroma_db/
+
+# Data (audio files, outputs — not committed)
+data/audio/
+data/outputs/
+data/transcripts/
+data/diarised/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# HuggingFace model cache
+.cache/
+models/

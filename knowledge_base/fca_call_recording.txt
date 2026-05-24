@@ -1,0 +1,70 @@
+SOURCE: FCA SYSC 9 — Systems and Controls: Recording of Telephone Conversations and Electronic Communications
+COLLECTION: fca_call_recording
+
+---
+
+OVERVIEW
+
+SYSC 9 requires firms to record telephone conversations and electronic communications that relate to the reception, transmission, and execution of client orders, and the provision of advice on investment transactions. These rules aim to create an audit trail that helps resolve disputes and detect misconduct.
+
+SCOPE
+
+SYSC 9.1.1 applies to firms conducting designated investment business that involves:
+- Receiving and transmitting orders
+- Executing orders
+- Dealing on own account
+- Providing portfolio management services
+- Providing investment advice
+
+CUSTOMER IDENTITY VERIFICATION REQUIREMENTS
+
+Before discussing account information, initiating transactions, or disclosing personal financial data over the telephone, firms must verify the identity of the caller using a documented and approved verification method. Approved verification methods include:
+
+- Memorable word or phrase (partial disclosure — e.g. characters 3 and 5 of a password)
+- Date of birth combined with registered address
+- Challenge questions (answers to pre-set security questions)
+- One-time passcode sent to a registered mobile or email address
+
+Firms must NOT:
+- Disclose account balances, sort codes, account numbers, addresses, or other personal data before identity has been verified.
+- Accept confirmation of disclosed information as verification (e.g. telling a caller their balance and asking if it is correct does not constitute verification — the caller has not proven they know the information independently).
+- Proceed with account discussions on the basis of name alone.
+
+DATA DISCLOSURE OBLIGATIONS
+
+Once identity has been verified, agents must still exercise care in what information they disclose:
+- Account numbers and sort codes should not be read out in full unless operationally necessary.
+- Home addresses and phone numbers should not be volunteered; they should only be confirmed (yes/no) if the customer provides them.
+- Agents must not disclose a customer's full financial picture in a single interaction without clear necessity.
+
+GDPR ALIGNMENT
+
+Under UK GDPR (retained from EU GDPR post-Brexit) and the Data Protection Act 2018:
+
+Article 5 — Principles relating to processing: Personal data must be processed lawfully, fairly, and transparently. It must be adequate, relevant, and limited to what is necessary (data minimisation).
+
+Article 25 — Data protection by design and by default: Firms must implement appropriate technical and organisational measures to ensure that, by default, only personal data necessary for each specific purpose is processed. This applies directly to customer service calls — agents should not disclose more personal data than is necessary to resolve the customer's query.
+
+Article 32 — Security of processing: Firms must implement appropriate measures to ensure a level of security appropriate to the risk, including preventing unauthorised access to personal data. Reading full account details to an unverified caller represents a significant breach of this principle.
+
+BREACH NOTIFICATION
+
+Under Article 33 of UK GDPR, where a personal data breach is likely to result in a risk to the rights and freedoms of individuals, the firm must notify the ICO within 72 hours of becoming aware of the breach. A call in which personal financial data is disclosed to an unverified caller constitutes a potential personal data breach that must be assessed and potentially notified.
+
+SPECIFIC PROHIBITED BEHAVIOURS — CUSTOMER SERVICE CALLS
+
+The following agent behaviours are explicitly non-compliant with SYSC 9 and UK GDPR:
+
+1. Reading out a customer's sort code and full account number without prior identity verification.
+2. Disclosing account balance without prior identity verification.
+3. Reading out the customer's registered address and phone number unsolicited.
+4. Treating the customer's agreement with disclosed information as equivalent to identity verification.
+5. Proceeding with account transactions (e.g. chargeback, transfer, product change) without full identity verification.
+
+RECORD KEEPING
+
+Firms must retain recordings of relevant telephone conversations for a minimum of five years (seven years for certain MiFID II-related activities). Records must be available to the FCA on request.
+
+CONSEQUENCES OF NON-COMPLIANCE
+
+Breach of SYSC 9 can result in FCA enforcement action, financial penalties, and reputational damage. Data protection breaches under UK GDPR can result in ICO enforcement and fines of up to £17.5 million or 4% of global annual turnover, whichever is higher.

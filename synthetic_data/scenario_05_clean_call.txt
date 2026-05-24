@@ -1,0 +1,56 @@
+SCENARIO: Clean Call — Well-Handled Complaint, All Protocols Followed (Control / GREEN)
+CALL_ID: CALL-005
+DURATION: 08:17
+DATE: 2026-05-16
+AGENT_ID: AGT-012
+
+---
+
+AGENT: Good morning, Meridian Bank customer services, you're speaking with Aisha. How can I help you today?
+
+CUSTOMER: Hi Aisha. I'd like to make a complaint about a fee that was charged to my account last month. I don't think it was applied correctly.
+
+AGENT: I'm sorry to hear that. I'd be happy to look into that for you. Before I access your account, I'll need to go through our standard security check. Could I take your full name please?
+
+CUSTOMER: Yes, it's Rachel Brennan.
+
+AGENT: Thank you Rachel. And your date of birth?
+
+CUSTOMER: 22nd of June 1989.
+
+AGENT: And can I take the third and fifth character of your online banking password please?
+
+CUSTOMER: Third is W, fifth is 4.
+
+AGENT: Perfect, thank you — I've verified your identity. I can see your account now. You mentioned a fee that was applied last month — could you tell me a bit more?
+
+CUSTOMER: There was a £25 charge on the 18th of April labelled as an "unarranged overdraft fee" but I don't think I went into unarranged overdraft. I had a salary payment coming in the same day.
+
+AGENT: Let me look at that date. So I can see the £25 charge was applied at 08:13 on the 18th of April, and your salary credit came in at 09:47 the same morning. The charge was applied before the salary cleared, which does follow our standard terms. However I can absolutely understand why this feels unfair.
+
+CUSTOMER: Exactly. If the salary was always coming that day it seems wrong to charge me.
+
+AGENT: I completely agree that's frustrating, Rachel. I'm going to raise a formal complaint on your behalf and I'm also going to refund that £25 as a gesture of goodwill while the complaint is reviewed. You'll receive a complaint reference number by text and email within the next two hours, and a full written response within eight weeks as required.
+
+CUSTOMER: Oh, thank you. That's really helpful.
+
+AGENT: Of course. I also want to let you know that under our complaints process, if you're not satisfied with our response you have the right to refer the matter to the Financial Ombudsman Service free of charge, and I'll include those details in the written response. Is that okay?
+
+CUSTOMER: Yes, that's great. Thank you for mentioning that.
+
+AGENT: Just to be transparent — I'm also going to make a note on your account that this was a borderline case so that if a similar situation arises in future, the fee can be reviewed before it's automatically applied. I can't guarantee that, but I want to flag it as something to look at.
+
+CUSTOMER: That's really thoughtful, I appreciate it.
+
+AGENT: Is there anything else I can help you with today?
+
+CUSTOMER: No, that's everything. You've been really helpful.
+
+AGENT: Thank you for your kind words Rachel. I've raised the complaint, processed the refund, and you'll get confirmation shortly. Take care and have a good day.
+
+CUSTOMER: You too, thank you.
+
+AGENT: Goodbye.
+
+---
+END OF CALL

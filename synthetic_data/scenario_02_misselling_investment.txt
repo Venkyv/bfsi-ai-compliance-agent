@@ -1,0 +1,56 @@
+SCENARIO: Mis-selling — Investment Product with Missing Risk Disclosures
+CALL_ID: CALL-002
+DURATION: 11:38
+DATE: 2026-05-13
+AGENT_ID: AGT-021
+
+---
+
+AGENT: Good afternoon, Meridian Bank wealth services, this is James speaking. How can I help?
+
+CUSTOMER: Hi James. I've got about fifteen thousand pounds sitting in my current account not doing much and I was thinking about investing it. Someone mentioned your Premier Growth Fund?
+
+AGENT: Great timing actually — the Premier Growth Fund is one of our most popular products right now. It's been performing really well.
+
+CUSTOMER: What kind of returns are we talking about?
+
+AGENT: We've seen around nine to eleven percent annually over the last two years. It's a fantastic product.
+
+CUSTOMER: That sounds impressive. Is it safe?
+
+AGENT: Absolutely. It's a managed fund — our professional team handles everything. You don't need to worry about a thing. It's basically risk-free for someone in your position.
+
+CUSTOMER: Risk-free? That does sound good. I'm 61 so I can't really afford to lose this money — it's part of my retirement pot.
+
+AGENT: Completely understandable. This is perfect for someone approaching retirement. The fund is designed for capital preservation as well as growth.
+
+CUSTOMER: What's the minimum I need to put in?
+
+AGENT: Five thousand, but I'd say fifteen thousand is a great amount to start. You'll see the returns much more clearly.
+
+CUSTOMER: What happens if I need the money back? Can I get it out quickly?
+
+AGENT: You can request a withdrawal at any time. It usually takes about ten working days to process.
+
+CUSTOMER: And there are no catches? No fees I should know about?
+
+AGENT: There's a small annual management fee of one point two percent. That's very standard in the industry.
+
+CUSTOMER: What about the cooling-off period? I think I'm entitled to one?
+
+AGENT: There's a standard process for any changes you want to make after signing up.
+
+CUSTOMER: Okay. Can I do this over the phone today?
+
+AGENT: Absolutely, I can set that up for you right now. I just need to confirm your account details and we can get the application processed today.
+
+CUSTOMER: Let's do it. Fifteen thousand.
+
+AGENT: Perfect. Let me pull up your account. Just to confirm — you're happy to invest fifteen thousand pounds in the Premier Growth Fund?
+
+CUSTOMER: Yes I think so. You've put my mind at ease. Risk-free and good returns — sounds ideal.
+
+AGENT: Great. Let's proceed.
+
+---
+END OF CALL

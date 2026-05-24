@@ -1,0 +1,68 @@
+SOURCE: FCA FG21/1 — Guidance for firms on the fair treatment of vulnerable customers (February 2021)
+COLLECTION: fca_vulnerable_customers
+
+---
+
+OVERVIEW
+
+This guidance sets out the FCA's expectations for how firms should treat vulnerable customers fairly. A vulnerable customer is someone who, due to their personal circumstances, is especially susceptible to harm, particularly when a firm is not acting with appropriate levels of care.
+
+DEFINITION OF VULNERABILITY
+
+The FCA identifies four key drivers of vulnerability:
+
+1. Health — conditions or illnesses that affect the ability to carry out day-to-day tasks. This includes physical disability, severe or long-term illness, hearing or visual impairment, poor mental health, addiction, and cognitive impairment.
+
+2. Life events — major life events that affect financial resilience or decision-making. This includes bereavement, job loss, relationship breakdown, new caring responsibilities, and financial abuse.
+
+3. Resilience — low financial or emotional resilience that reduces the ability to withstand financial or emotional shocks. This includes low savings, low financial confidence, and anxiety about financial matters.
+
+4. Capability — low knowledge of financial matters or low confidence in managing finances. This includes low literacy or numeracy skills, and difficulty understanding financial products.
+
+IDENTIFYING VULNERABILITY IN CUSTOMER INTERACTIONS
+
+Firms must train staff to identify vulnerability during calls and in-person interactions. Key indicators include:
+
+- Customer expressing confusion about what is being offered or asked of them.
+- Customer deferring decisions entirely to the agent ("do whatever you think is best", "I trust you").
+- Customer indicating that a family member or carer usually handles financial matters.
+- Customer mentioning recent bereavement, illness, or significant life change.
+- Customer expressing significant financial stress or inability to absorb a financial loss.
+- Customer expressing that they do not understand what they are agreeing to.
+- Elderly customers who may have reduced cognitive capacity or reduced financial capability.
+- Customer expressing uncertainty about their consent to a financial product or transaction.
+
+REQUIRED FIRM BEHAVIOURS — SECTION 3.2
+
+When a vulnerability indicator is identified, firms must:
+
+3.2.1 — Pause and reassess: Do not continue a sale or major transaction without ensuring the customer has understood and genuinely consented.
+
+3.2.2 — Adapt communication: Simplify language, slow down, and check for understanding at each stage.
+
+3.2.3 — Offer a pause: Where possible, offer the customer time to consider their decision, consult a family member or trusted person, or call back at a more convenient time.
+
+3.2.4 — Escalate if necessary: Where vulnerability is severe or the financial decision is significant, escalate to a senior colleague or specialist team.
+
+3.2.5 — Record indicators: Log vulnerability indicators on the customer's account for future interactions.
+
+3.2.6 — Do not exploit urgency: Where a genuine deadline exists (e.g. a product window closing), firms must ensure this is communicated clearly and that the customer is not pressured as a result. Artificial urgency must never be used.
+
+SPECIFIC SCENARIOS — ELDERLY CUSTOMERS
+
+Elderly customers may show reduced cognitive capacity, unfamiliarity with digital or complex financial products, and increased reliance on agents or family members. When an elderly customer:
+
+- Is unsure what they are agreeing to
+- Has recently been bereaved
+- States they usually rely on a family member to manage finances
+- Uses language such as "I suppose so" or "whatever you think is best"
+
+...the agent must treat this as a vulnerability trigger and follow sections 3.2.1 through 3.2.6 above. Proceeding with a financial commitment on the basis of "I suppose so" without further clarification is a breach of this guidance.
+
+CONSENT REQUIREMENTS
+
+Consent must be informed, genuine, and unambiguous. A customer saying "I suppose so", "if you say so", or "whatever you think" does not constitute informed consent for a financial product or service commitment. Firms must obtain clear, positive confirmation that the customer understands and agrees.
+
+OUTCOMES THE FCA EXPECTS
+
+The FCA expects firms to demonstrate that vulnerable customers are receiving outcomes that are as good as those for other customers, with additional support where needed. Firms must monitor, test, and report on their treatment of vulnerable customers.
