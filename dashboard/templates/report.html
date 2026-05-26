@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Report — {{ r.get('call_id') }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="nav-dot red"></span>
+    <span class="nav-dot amber"></span>
+    <span class="nav-dot green"></span>
+    <a href="/" class="nav-back">← Overview</a>
+    <span class="nav-title">Audit Report</span>
+  </div>
+  <div class="nav-meta">
+    <span class="nav-bank">{{ r.get('call_id') }}</span>
+    <span class="nav-time">{{ now }}</span>
+  </div>
+</nav>
+
+<main class="main">
+
+  {% set rs = r.get('risk_score', {}) %}
+  {% set rag = rs.get('rag_status', 'GREEN') %}
+  {% set report = r.get('audit_report', {}) %}
+  {% set fraud = r.get('fraud_findings', {}) %}
+  {% set comp = r.get('compliance_findings', {}) %}
+  {% set vuln = r.get('vulnerability_findings', {}) %}
+  {% set agent = r.get('agent_quality', {}) %}
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ r.get('scenario_label', r.get('call_id')) }}</h1>
+      <p class="page-sub">
+        Call ID: {{ r.get('call_id') }} &nbsp;·&nbsp;
+        Duration: {{ report.get('call_duration_approx', '—') }} &nbsp;·&nbsp;
+        Analysed: {{ report.get('analysis_timestamp', '')[:19].replace('T', ' ') }}
+      </p>
+    </div>
+    <span class="rag-badge rag-{{ rag.lower() }} rag-large">
+      {% if rag == 'RED' %}🔴 RED — IMMEDIATE ACTION{% elif rag == 'AMBER' %}🟡 AMBER — REVIEW REQUIRED{% else %}🟢 GREEN — CLEAR{% endif %}
+    </span>
+  </div>
+
+  <!-- Risk score + gauge row -->
+  <div class="report-top-row">
+
+    <!-- Score breakdown -->
+    <div class="score-breakdown-card">
+      <div class="sbc-title">Risk Score Breakdown</div>
+      <div class="sbc-main {{ 'sbc-red' if rag == 'RED' else ('sbc-amber' if rag == 'AMBER' else 'sbc-green') }}">
+        {{ rs.get('composite_score', 0) }}<span class="sbc-denom">/100</span>
+      </div>
+      <div class="sbc-bars">
+        {% for label, val, colour in [
+          ('Fraud', rs.get('fraud_score', 0), 'bar-red'),
+          ('Compliance', rs.get('compliance_score', 0), 'bar-amber'),
+          ('Vulnerability', rs.get('vulnerability_score', 0), 'bar-amber'),
+          ('Agent Quality', rs.get('agent_quality_score', 0), 'bar-green'),
+        ] %}
+        <div class="sbc-bar-row">
+          <span class="sbc-bar-label">{{ label }}</span>
+          <div class="score-bar-bg sbc-bar-track">
+            <div class="score-bar {{ colour }}" style="width: {{ val }}%"></div>
+          </div>
+          <span class="sbc-bar-val">{{ val }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% if rs.get('priority_flags') %}
+      <div class="flags-section">
+        <div class="flags-label">Priority Flags</div>
+        {% for flag in rs.get('priority_flags', []) %}
+        <div class="flag-item">⚑ {{ flag.replace('_', ' ') }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Agent radar -->
+    <div class="chart-card flex-1">
+      <div class="chart-title">Agent Conduct Scores</div>
+      <div class="chart-wrap-radar">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Executive summary -->
+    <div class="exec-summary-card">
+      <div class="es-title">Executive Summary</div>
+      <p class="es-text">{{ report.get('executive_summary', '—') }}</p>
+      {% if report.get('recommended_actions') %}
+      <div class="es-actions-title">Recommended Actions</div>
+      <ol class="es-actions">
+        {% for action in report.get('recommended_actions', []) %}
+        <li class="{{ 'action-red' if 'IMMEDIATE' in action or 'URGENT' in action else 'action-normal' }}">
+          {{ action }}
+        </li>
+        {% endfor %}
+      </ol>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- Agent findings grid -->
+  <div class="findings-grid">
+
+    <!-- Fraud -->
+    <div class="finding-card {% if fraud.get('fraud_detected') %}fc-red{% else %}fc-green{% endif %}">
+      <div class="fc-header">
+        <span class="fc-icon">{% if fraud.get('fraud_detected') %}🚨{% else %}✓{% endif %}</span>
+        <span class="fc-title">Fraud Detection</span>
+        <span class="fc-badge {% if fraud.get('fraud_detected') %}fcb-red{% else %}fcb-green{% endif %}">
+          {% if fraud.get('fraud_detected') %}{{ fraud.get('fraud_type', 'DETECTED') }} · {{ (fraud.get('confidence_score', 0) * 100)|int }}%{% else %}Clear{% endif %}
+        </span>
+      </div>
+      <p class="fc-summary">{{ fraud.get('summary', '—') }}</p>
+      {% for f in fraud.get('findings', []) %}
+      <div class="finding-item sev-{{ f.get('severity', 'LOW').lower() }}">
+        <div class="fi-header">
+          <span class="fi-id">{{ f.get('finding_id') }}</span>
+          <span class="sev-badge sev-{{ f.get('severity', 'LOW').lower() }}">{{ f.get('severity') }}</span>
+        </div>
+        <p class="fi-desc">{{ f.get('description') }}</p>
+        <div class="fi-quote">"{{ f.get('evidence_quote') }}"</div>
+        <div class="fi-meta">
+          <span class="fi-speaker">{{ f.get('speaker') }}</span>
+          <span class="fi-rule">{{ f.get('regulatory_reference') }}</span>
+        </div>
+        <div class="fi-action">→ {{ f.get('recommended_action') }}</div>
+      </div>
+      {% endfor %}
+      {% if not fraud.get('findings') %}
+        <div class="fc-clear">No fraud findings</div>
+      {% endif %}
+    </div>
+
+    <!-- Compliance -->
+    <div class="finding-card {% if comp.get('violations_detected') %}fc-red{% else %}fc-green{% endif %}">
+      <div class="fc-header">
+        <span class="fc-icon">{% if comp.get('violations_detected') %}⚠{% else %}✓{% endif %}</span>
+        <span class="fc-title">FCA Compliance</span>
+        <span class="fc-badge {% if comp.get('violations_detected') %}fcb-red{% else %}fcb-green{% endif %}">
+          {% if comp.get('violations_detected') %}{{ comp.get('findings', [])|length }} Violation{% if comp.get('findings', [])|length != 1 %}s{% endif %}{% else %}Compliant{% endif %}
+        </span>
+      </div>
+      <p class="fc-summary">{{ comp.get('summary', '—') }}</p>
+      {% if comp.get('missing_disclosures') %}
+      <div class="missing-disc">
+        <div class="md-label">Missing Disclosures</div>
+        {% for d in comp.get('missing_disclosures', []) %}
+        <div class="md-item">· {{ d }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% for f in comp.get('findings', []) %}
+      <div class="finding-item sev-{{ f.get('severity', 'LOW').lower() }}">
+        <div class="fi-header">
+          <span class="fi-id">{{ f.get('finding_id') }}</span>
+          <span class="sev-badge sev-{{ f.get('severity', 'LOW').lower() }}">{{ f.get('severity') }}</span>
+        </div>
+        <p class="fi-desc">{{ f.get('description') }}</p>
+        <div class="fi-quote">"{{ f.get('evidence_quote') }}"</div>
+        <div class="fi-meta">
+          <span class="fi-speaker">{{ f.get('speaker') }}</span>
+          <span class="fi-rule">{{ f.get('regulatory_reference') }}</span>
+        </div>
+        <div class="fi-action">→ {{ f.get('recommended_action') }}</div>
+      </div>
+      {% endfor %}
+      {% if not comp.get('findings') %}
+        <div class="fc-clear">No compliance violations</div>
+      {% endif %}
+    </div>
+
+    <!-- Vulnerability -->
+    <div class="finding-card {% if vuln.get('vulnerable_customer_detected') %}fc-amber{% else %}fc-green{% endif %}">
+      <div class="fc-header">
+        <span class="fc-icon">{% if vuln.get('vulnerable_customer_detected') %}⚑{% else %}✓{% endif %}</span>
+        <span class="fc-title">Vulnerable Customer</span>
+        <span class="fc-badge {% if vuln.get('vulnerable_customer_detected') %}fcb-amber{% else %}fcb-green{% endif %}">
+          {% if vuln.get('vulnerable_customer_detected') %}
+            {{ vuln.get('vulnerability_type', 'DETECTED') }}{% if vuln.get('escalation_required') %} · Escalate{% endif %}
+          {% else %}None{% endif %}
+        </span>
+      </div>
+      <p class="fc-summary">{{ vuln.get('summary', '—') }}</p>
+      {% for f in vuln.get('findings', []) %}
+      <div class="finding-item sev-{{ f.get('severity', 'LOW').lower() }}">
+        <div class="fi-header">
+          <span class="fi-id">{{ f.get('finding_id') }}</span>
+          <span class="sev-badge sev-{{ f.get('severity', 'LOW').lower() }}">{{ f.get('severity') }}</span>
+        </div>
+        <p class="fi-desc">{{ f.get('description') }}</p>
+        <div class="fi-quote">"{{ f.get('evidence_quote') }}"</div>
+        <div class="fi-meta">
+          <span class="fi-speaker">{{ f.get('speaker') }}</span>
+          <span class="fi-rule">{{ f.get('regulatory_reference') }}</span>
+        </div>
+        <div class="fi-action">→ {{ f.get('recommended_action') }}</div>
+      </div>
+      {% endfor %}
+      {% if not vuln.get('findings') %}
+        <div class="fc-clear">No vulnerability signals</div>
+      {% endif %}
+    </div>
+
+    <!-- Agent quality -->
+    <div class="finding-card {% if agent.get('overall_score', 0) >= 70 %}fc-green{% elif agent.get('overall_score', 0) >= 50 %}fc-amber{% else %}fc-red{% endif %}">
+      <div class="fc-header">
+        <span class="fc-icon">👤</span>
+        <span class="fc-title">Agent Quality</span>
+        <span class="fc-badge {% if agent.get('overall_score', 0) >= 70 %}fcb-green{% elif agent.get('overall_score', 0) >= 50 %}fcb-amber{% else %}fcb-red{% endif %}">
+          {{ agent.get('overall_score', 0) }}/100
+        </span>
+      </div>
+      <div class="agent-scores-row">
+        {% for label, val in [
+          ('Professional', agent.get('professionalism', 0)),
+          ('Disclosure', agent.get('disclosure_compliance', 0)),
+          ('Empathy', agent.get('empathy', 0)),
+          ('Escalation', agent.get('escalation_adherence', 0)),
+        ] %}
+        <div class="agent-score-item">
+          <div class="asi-label">{{ label }}</div>
+          <div class="asi-val {{ 'score-green' if val >= 70 else ('score-amber' if val >= 50 else 'score-red') }}">{{ val }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="fc-summary">{{ agent.get('notes', '—') }}</p>
+      {% for f in agent.get('findings', []) %}
+      <div class="finding-item sev-{{ f.get('severity', 'LOW').lower() }}">
+        <div class="fi-header">
+          <span class="fi-id">{{ f.get('finding_id') }}</span>
+          <span class="sev-badge sev-{{ f.get('severity', 'LOW').lower() }}">{{ f.get('severity') }}</span>
+        </div>
+        <p class="fi-desc">{{ f.get('description') }}</p>
+        <div class="fi-quote">"{{ f.get('evidence_quote') }}"</div>
+        <div class="fi-action">→ {{ f.get('recommended_action') }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <div class="footer">
+    BFSI AI Compliance & Fraud Intelligence Agent &nbsp;·&nbsp; AI Exploration Series — Project 6
+  </div>
+
+</main>
+
+<script>
+const agentData = {
+  professionalism: {{ agent.get('professionalism', 0) }},
+  disclosure: {{ agent.get('disclosure_compliance', 0) }},
+  empathy: {{ agent.get('empathy', 0) }},
+  escalation: {{ agent.get('escalation_adherence', 0) }},
+};
+Chart.defaults.color = '#94A3B8';
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Professionalism', 'Disclosure', 'Empathy', 'Escalation'],
+    datasets: [{
+      label: 'Agent Score',
+      data: [agentData.professionalism, agentData.disclosure, agentData.empathy, agentData.escalation],
+      backgroundColor: 'rgba(16, 185, 129, 0.15)',
+      borderColor: '#10B981',
+      pointBackgroundColor: '#10B981',
+      pointRadius: 4,
+      borderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      r: {
+        min: 0, max: 100,
+        grid: { color: '#1E293B' },
+        angleLines: { color: '#1E293B' },
+        ticks: { display: false },
+        pointLabels: { font: { size: 12 } }
+      }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+</body>
+</html>

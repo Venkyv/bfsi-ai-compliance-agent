@@ -17,6 +17,7 @@ class CallAnalysisState(TypedDict):
 
     # ── Transcription ─────────────────────────────────────────────────────────
     raw_transcript: Optional[str]
+    whisper_segments: Optional[list[dict]]   # Whisper timing segments — reused by diarise node
     diarised_transcript: Optional[list[dict]]
     formatted_transcript: Optional[str]
 

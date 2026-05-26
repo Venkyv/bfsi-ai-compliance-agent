@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BFSI Compliance Intelligence — Meridian Bank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="nav-dot red"></span>
+    <span class="nav-dot amber"></span>
+    <span class="nav-dot green"></span>
+    <span class="nav-title">BFSI Compliance Intelligence</span>
+  </div>
+  <div class="nav-meta">
+    <span class="nav-bank">Meridian Bank</span>
+    <span class="nav-time">{{ now }}</span>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Call Centre Overview</h1>
+      <p class="page-sub">AI-powered compliance monitoring · {{ stats.total }} calls analysed</p>
+    </div>
+    <div class="header-badge {% if stats.immediate_action > 0 %}badge-red{% else %}badge-green{% endif %}">
+      {% if stats.immediate_action > 0 %}
+        ⚑ {{ stats.immediate_action }} Immediate Action{% if stats.immediate_action > 1 %}s{% endif %} Required
+      {% else %}
+        ✓ No Immediate Actions
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-red"><div class="kpi-val">{{ stats.red }}</div><div class="kpi-label">🔴 Red — Critical</div></div>
+    <div class="kpi-card kpi-amber"><div class="kpi-val">{{ stats.amber }}</div><div class="kpi-label">🟡 Amber — Review</div></div>
+    <div class="kpi-card kpi-green"><div class="kpi-val">{{ stats.green }}</div><div class="kpi-label">🟢 Green — Clear</div></div>
+    <div class="kpi-card"><div class="kpi-val">{{ stats.fraud_detected }}</div><div class="kpi-label">Fraud Detected</div></div>
+    <div class="kpi-card"><div class="kpi-val">{{ stats.vulnerable_customers }}</div><div class="kpi-label">Vulnerable Customers</div></div>
+    <div class="kpi-card"><div class="kpi-val">{{ stats.compliance_breaches }}</div><div class="kpi-label">Compliance Breaches</div></div>
+    <div class="kpi-card"><div class="kpi-val">{{ stats.avg_risk_score }}</div><div class="kpi-label">Avg Risk Score</div></div>
+    <div class="kpi-card"><div class="kpi-val">{{ stats.total }}</div><div class="kpi-label">Total Calls</div></div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="charts-row">
+    <div class="chart-card chart-small">
+      <div class="chart-title">RAG Distribution</div>
+      <div class="chart-wrap-sm"><canvas id="ragChart"></canvas></div>
+    </div>
+    <div class="chart-card chart-large">
+      <div class="chart-title">Risk Score by Call</div>
+      <div class="chart-wrap-lg"><canvas id="scoreChart"></canvas></div>
+    </div>
+    <div class="chart-card chart-medium">
+      <div class="chart-title">Agent Quality Scores</div>
+      <div class="chart-wrap-lg"><canvas id="agentChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Calls table -->
+  <div class="table-card">
+    <div class="table-header">
+      <div class="table-title">Recent Calls</div>
+      <div class="table-sub">Click any row to view full audit report</div>
+    </div>
+    <table class="calls-table">
+      <thead>
+        <tr>
+          <th>Call ID</th><th>Scenario</th><th>RAG</th><th>Score</th>
+          <th>Fraud</th><th>Vulnerable</th><th>Compliance</th><th>Agent</th><th>Flags</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+        {% set rs = (r.get('risk_score') or {}) %}
+        {% set rag = rs.get('rag_status', 'GREEN') %}
+        {% set fraud = (r.get('fraud_findings') or {}) %}
+        {% set comp = (r.get('compliance_findings') or {}) %}
+        {% set vuln = (r.get('vulnerability_findings') or {}) %}
+        {% set aq = (r.get('agent_quality') or {}).get('overall_score', 0) %}
+        <tr class="call-row" onclick="window.location='/report/{{ r.get('call_id', r.get('_filename')) }}'">
+          <td class="mono">{{ r.get('call_id', '—') }}</td>
+          <td class="scenario-cell">{{ r.get('scenario_label', '—')[:45] }}</td>
+          <td>
+            <span class="rag-badge rag-{{ rag.lower() }}">
+              {% if rag == 'RED' %}🔴 RED{% elif rag == 'AMBER' %}🟡 AMBER{% else %}🟢 GREEN{% endif %}
+            </span>
+          </td>
+          <td>
+            {% set score = rs.get('composite_score', 0) %}
+            <div class="score-wrap">
+              <span class="score-num {{ 'score-red' if score >= 70 else ('score-amber' if score >= 40 else 'score-green') }}">{{ score }}</span>
+              <div class="score-bar-bg">
+                <div class="score-bar {{ 'bar-red' if score >= 70 else ('bar-amber' if score >= 40 else 'bar-green') }}" style="width: {{ score }}%"></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            {% if fraud.get('fraud_detected') %}
+              <span class="pill pill-red">{{ fraud.get('fraud_type', 'YES') }}</span>
+            {% else %}
+              <span class="pill pill-green">None</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if vuln.get('vulnerable_customer_detected') %}
+              <span class="pill pill-amber">{% if vuln.get('escalation_required') %}⚠ Escalate{% else %}Detected{% endif %}</span>
+            {% else %}
+              <span class="pill pill-green">None</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if comp.get('violations_detected') %}
+              <span class="pill pill-red">{{ comp.get('findings', [])|length }} finding{% if comp.get('findings', [])|length != 1 %}s{% endif %}</span>
+            {% else %}
+              <span class="pill pill-green">Clear</span>
+            {% endif %}
+          </td>
+          <td><span class="{{ 'score-green' if aq >= 70 else ('score-amber' if aq >= 50 else 'score-red') }}">{{ aq }}/100</span></td>
+          <td>
+            {% for flag in rs.get('priority_flags', [])[:2] %}
+              <span class="flag-tag">{{ flag.replace('_', ' ') }}</span>
+            {% endfor %}
+            {% if rs.get('priority_flags', [])|length > 2 %}
+              <span class="flag-more">+{{ rs.get('priority_flags', [])|length - 2 }}</span>
+            {% endif %}
+          </td>
+          <td><span class="view-link">View →</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Submit transcript form -->
+  <div class="upload-card">
+    <div class="table-header">
+      <div class="table-title">Analyse a New Transcript</div>
+      <div class="table-sub">Paste a call transcript — runs the full LangGraph pipeline via FastAPI</div>
+    </div>
+    <div class="upload-body">
+      <form method="POST" action="/upload">
+        <div class="form-row">
+          <input type="text" name="label" placeholder="Scenario label e.g. APP Fraud — Customer Call" class="form-input" />
+        </div>
+        <div class="form-row">
+          <textarea name="transcript" rows="8" placeholder="Paste transcript here...&#10;AGENT: Good morning...&#10;CUSTOMER: Hi, I have a question..." class="form-textarea"></textarea>
+        </div>
+        <button type="submit" class="form-btn">Run Analysis →</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">
+    BFSI AI Compliance & Fraud Intelligence Agent &nbsp;·&nbsp;
+    AI Exploration Series — Project 6 &nbsp;·&nbsp;
+    Built with LangGraph · Whisper · ChromaDB · Groq
+  </div>
+
+</main>
+
+<script>
+const ragData = {{ rag_chart | safe }};
+const scoreLabels = {{ score_labels | safe }};
+const scoreData = {{ score_data | safe }};
+const scoreColours = {{ score_colours | safe }};
+const agentLabels = {{ agent_labels | safe }};
+const agentScores = {{ agent_scores | safe }};
+
+Chart.defaults.color = '#94A3B8';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+new Chart(document.getElementById('ragChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Red', 'Amber', 'Green'],
+    datasets: [{ data: [ragData.RED, ragData.AMBER, ragData.GREEN], backgroundColor: ['#EF4444','#F59E0B','#10B981'], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, cutout: '72%', plugins: { legend: { position: 'bottom', labels: { padding: 16, boxWidth: 12 } } } }
+});
+
+new Chart(document.getElementById('scoreChart'), {
+  type: 'bar',
+  data: {
+    labels: scoreLabels,
+    datasets: [{ label: 'Composite Risk Score', data: scoreData, backgroundColor: scoreColours, borderRadius: 4, borderSkipped: false }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { min: 0, max: 100, grid: { color: '#1E293B' }, ticks: { callback: v => v + '/100' } }, x: { grid: { display: false }, ticks: { maxRotation: 20, font: { size: 11 } } } } }
+});
+
+new Chart(document.getElementById('agentChart'), {
+  type: 'bar',
+  data: {
+    labels: agentLabels,
+    datasets: [{ label: 'Agent Quality', data: agentScores, backgroundColor: agentScores.map(s => s >= 70 ? '#10B981' : s >= 50 ? '#F59E0B' : '#EF4444'), borderRadius: 4, borderSkipped: false }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { min: 0, max: 100, grid: { color: '#1E293B' } }, x: { grid: { display: false } } } }
+});
+</script>
+</body>
+</html>

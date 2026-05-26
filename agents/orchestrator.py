@@ -3,22 +3,22 @@ agents/orchestrator.py
 
 LangGraph multi-agent graph for BFSI compliance analysis.
 
-Graph flow:
+Sprint 3 graph flow:
     START
       ↓
-    prepare_node
+    prepare_node        — route: audio file OR text transcript
       ↓
-    fraud_agent  →  compliance_agent  →  vulnerability_agent  →  agent_behaviour
-      ↓  (sequential — avoids Groq TPM rate limit on free tier)
+    transcribe_node     — Whisper: audio → raw transcript (skipped for text input)
+      ↓
+    diarise_node        — pyannote: raw → AGENT/CUSTOMER labelled segments (skipped for text)
+      ↓
+    fraud_agent → compliance_agent → vulnerability_agent → agent_behaviour
+      ↓
     risk_scoring_node
       ↓
     report_node
       ↓
     END
-
-NOTE: Sequential ordering is intentional for Groq free tier (12,000 TPM limit).
-To switch to true parallel execution on paid tier, replace the sequential edges
-with fan-out/fan-in edges (see comments in build_graph).
 """
 
 import os
@@ -40,34 +40,119 @@ from agents.report_agent import report_agent_node
 
 def prepare_node(state: CallAnalysisState) -> dict:
     """
-    Entry node: validate input and format transcript for agents.
-    Sprint 3 will extend this with whisper + diarisation nodes.
+    Entry node: validate input and determine pipeline path.
+    - Audio path provided → will go through transcribe + diarise nodes
+    - Raw transcript provided → skip to agent analysis directly
     """
+    audio_path = state.get("audio_path")
     raw = state.get("raw_transcript", "")
+    errors = list(state.get("errors", []))
 
-    if not raw:
+    if not audio_path and not raw:
         return {
             "processing_status": "error",
-            "errors": ["No transcript provided — raw_transcript is empty"],
+            "errors": ["No input provided — supply either audio_path or raw_transcript"],
         }
 
-    diarised = state.get("diarised_transcript")
-    if diarised:
-        lines = []
-        for seg in diarised:
-            speaker = seg.get("speaker", "UNKNOWN").upper()
-            text = seg.get("text", "").strip()
-            if text:
-                lines.append(f"{speaker}: {text}")
-        formatted = "\n".join(lines)
-    else:
-        formatted = raw
+    # If text transcript provided directly, format it now
+    if raw and not audio_path:
+        diarised = state.get("diarised_transcript")
+        if diarised:
+            lines = []
+            for seg in diarised:
+                speaker = seg.get("speaker", "UNKNOWN").upper()
+                text = seg.get("text", "").strip()
+                if text:
+                    lines.append(f"{speaker}: {text}")
+            formatted = "\n".join(lines)
+        else:
+            formatted = raw
 
+        return {
+            "formatted_transcript": formatted,
+            "processing_status": "analysing",
+            "errors": errors,
+        }
+
+    # Audio path provided — transcription happens in next nodes
     return {
-        "formatted_transcript": formatted,
-        "processing_status": "analysing",
-        "errors": state.get("errors", []),
+        "processing_status": "transcribing",
+        "errors": errors,
     }
+
+
+# ── Transcription node ─────────────────────────────────────────────────────────
+
+def transcribe_node(state: CallAnalysisState) -> dict:
+    """
+    LangGraph node: transcribe audio file using Whisper.
+    Skipped if raw_transcript already provided.
+    """
+    if state.get("raw_transcript") and not state.get("audio_path"):
+        return {}  # Already have transcript — skip
+
+    audio_path = state.get("audio_path")
+    if not audio_path:
+        return {}
+
+    errors = list(state.get("errors", []))
+
+    try:
+        from services.whisper_service import transcribe
+        result = transcribe(audio_path)
+        return {
+            "raw_transcript": result["text"],
+            "whisper_segments": result["segments"],
+            "processing_status": "diarising",
+            "errors": errors,
+        }
+    except Exception as e:
+        errors.append(f"TranscribeNode error: {str(e)}")
+        return {
+            "processing_status": "error",
+            "errors": errors,
+        }
+
+
+# ── Diarisation node ───────────────────────────────────────────────────────────
+
+def diarise_node(state: CallAnalysisState) -> dict:
+    """
+    LangGraph node: separate AGENT and CUSTOMER speech using pyannote.
+    Skipped if no audio_path (text-only pipeline).
+    """
+    audio_path = state.get("audio_path")
+    if not audio_path:
+        return {}  # Text-only pipeline — skip diarisation
+
+    errors = list(state.get("errors", []))
+
+    try:
+        from services.diarisation_service import diarise, format_diarised_transcript
+
+        # Reuse segments already stored by transcribe_node — avoid double transcription
+        segments = state.get("whisper_segments") or []
+        if not segments:
+            from services.whisper_service import get_segments
+            segments = get_segments(audio_path)
+        diarised = diarise(audio_path, segments)
+        formatted = format_diarised_transcript(diarised)
+
+        return {
+            "diarised_transcript": diarised,
+            "formatted_transcript": formatted,
+            "processing_status": "analysing",
+            "errors": errors,
+        }
+    except Exception as e:
+        errors.append(f"DiariseNode error: {str(e)}")
+        # Fallback: use raw transcript without speaker labels
+        raw = state.get("raw_transcript", "")
+        return {
+            "formatted_transcript": raw,
+            "processing_status": "analysing",
+            "errors": errors,
+        }
 
 
 # ── Graph builder ──────────────────────────────────────────────────────────────
@@ -75,12 +160,14 @@ def prepare_node(state: CallAnalysisState) -> dict:
 def build_graph() -> StateGraph:
     """
     Build and compile the LangGraph multi-agent graph.
-    Agents run sequentially to respect Groq free-tier TPM limits.
+    Sprint 3: includes transcribe and diarise nodes.
     """
     graph = StateGraph(CallAnalysisState)
 
-    # Register nodes
+    # Register all nodes
     graph.add_node("prepare",              prepare_node)
+    graph.add_node("transcribe",           transcribe_node)
+    graph.add_node("diarise",              diarise_node)
     graph.add_node("fraud_agent",          fraud_agent_node)
     graph.add_node("compliance_agent",     compliance_agent_node)
     graph.add_node("vulnerability_agent",  vulnerability_agent_node)
@@ -88,41 +175,33 @@ def build_graph() -> StateGraph:
     graph.add_node("risk_scoring",         risk_scoring_node)
     graph.add_node("report",               report_agent_node)
 
-    # Sequential pipeline
-    graph.add_edge(START,                "prepare")
-    graph.add_edge("prepare",            "fraud_agent")
-    graph.add_edge("fraud_agent",        "compliance_agent")
-    graph.add_edge("compliance_agent",   "vulnerability_agent")
-    graph.add_edge("vulnerability_agent","agent_behaviour")
-    graph.add_edge("agent_behaviour",    "risk_scoring")
-    graph.add_edge("risk_scoring",       "report")
-    graph.add_edge("report",             END)
-
-    # ── To enable true parallel execution on paid tier, replace the above
-    # sequential agent edges with:
-    #   graph.add_edge("prepare",            "fraud_agent")
-    #   graph.add_edge("prepare",            "compliance_agent")
-    #   graph.add_edge("prepare",            "vulnerability_agent")
-    #   graph.add_edge("prepare",            "agent_behaviour")
-    #   graph.add_edge("fraud_agent",        "risk_scoring")
-    #   graph.add_edge("compliance_agent",   "risk_scoring")
-    #   graph.add_edge("vulnerability_agent","risk_scoring")
-    #   graph.add_edge("agent_behaviour",    "risk_scoring")
+    # Pipeline edges
+    graph.add_edge(START,                  "prepare")
+    graph.add_edge("prepare",              "transcribe")
+    graph.add_edge("transcribe",           "diarise")
+    graph.add_edge("diarise",              "fraud_agent")
+    graph.add_edge("fraud_agent",          "compliance_agent")
+    graph.add_edge("compliance_agent",     "vulnerability_agent")
+    graph.add_edge("vulnerability_agent",  "agent_behaviour")
+    graph.add_edge("agent_behaviour",      "risk_scoring")
+    graph.add_edge("risk_scoring",         "report")
+    graph.add_edge("report",               END)
 
     return graph.compile()
 
 
-# ── Public run function ────────────────────────────────────────────────────────
+# ── Public run functions ───────────────────────────────────────────────────────
 
 def run_analysis(
-    transcript: str,
-    call_id: str,
+    transcript: str = None,
+    call_id: str = "",
     scenario_label: str = "",
     audio_path: str = None,
     diarised_transcript: list = None,
 ) -> CallAnalysisState:
     """
-    Run the full multi-agent analysis pipeline on a transcript.
+    Run full multi-agent analysis.
+    Accepts either a text transcript OR an audio file path.
     """
     graph = build_graph()
 
@@ -131,6 +210,7 @@ def run_analysis(
         "call_id": call_id,
         "scenario_label": scenario_label,
         "raw_transcript": transcript,
+        "whisper_segments": None,
         "diarised_transcript": diarised_transcript,
         "formatted_transcript": None,
         "fraud_findings": None,
@@ -143,5 +223,4 @@ def run_analysis(
         "errors": [],
     }
 
-    final_state = graph.invoke(initial_state)
-    return final_state
+    return graph.invoke(initial_state)
